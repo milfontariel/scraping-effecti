@@ -43,6 +43,7 @@ export function Main() {
 
     return (
         <div className='flex flex-col justify-center items-center'>
+            <h1 className='text-6xl mt-3 font-bold'>LicitaRecife</h1>
             <InputSearch att={att} setAtt={setAtt} search={search} setSearch={setSearch} />
             <Biddings biddings={biddings} />
         </div>

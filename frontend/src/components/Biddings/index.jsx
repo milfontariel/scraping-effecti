@@ -1,9 +1,22 @@
+import { getBiddingPage } from "../../services/api"
+
 export function Biddings({ biddings }) {
 
     if (biddings.length < 1) {
         return (
             <p className="mt-20">Nenhum resultado encontrado</p>
         )
+    }
+
+    async function handleBiddingPage(ref) {
+        try {
+            const response = await getBiddingPage(ref);
+            const win = window.open("about:blank", "_blank");
+            win.document.write(response);
+            win.document.close();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -16,7 +29,7 @@ export function Biddings({ biddings }) {
                                 <td>
                                     <a
                                         className="cursor-pointer text-white underline"
-                                        onClick={() => console.log(bidding.ref)}>
+                                        onClick={() => handleBiddingPage(bidding.ref)}>
                                         {bidding.titulo}
                                     </a>
                                 </td>

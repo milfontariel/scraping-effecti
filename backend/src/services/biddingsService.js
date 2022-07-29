@@ -90,7 +90,7 @@ export async function loadBidding(ref) {
     try {
         await page.waitForSelector(
             "body > div > div.site-body > div > div.content > div > div > section > div > section:nth-child(5) > table", {
-            timeout: 5000,
+            timeout: 10000,
             visible: true
         });
     } catch (error) {
@@ -112,7 +112,8 @@ export async function loadBidding(ref) {
     const response = () => {
         return page.evaluate(async () => {
             return await new Promise((resolve) => {
-                const html = document.querySelector("body > div > div.site-body > div > div.content > div > div > section > div > article:nth-child(3) > section:nth-child(2) > table").outerHTML;
+                //const html = document.querySelector("body > div > div.site-body > div > div.content > div > div > section > div > article:nth-child(3) > section:nth-child(2) > table").outerHTML;
+                const html = document.querySelector("*").outerHTML;
                 resolve(html)
             })
         })

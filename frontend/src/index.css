@@ -11,6 +11,7 @@ td {
   padding: 8px;
   line-height: 20px;
   border-left: 1px solid #f9f9f9;
+  text-align: center;
 }
 
 td:last-child {
