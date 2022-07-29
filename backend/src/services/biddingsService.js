@@ -2,11 +2,13 @@ import puppeteer from "puppeteer";
 import fs from 'fs';
 import { createBiddings } from "../repositories/biddingsRepository.ts";
 
-export async function getBiddingsWithKeyword(busca) {
+export async function getBiddingsWithKeyword(search) {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/Licitacoes.php');
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/ConsLicitacoesAndamento.php');
+
+    const busca = search ? search : '';
 
     await page.evaluate((busca) => {
         function enviar(valor, botao, texto) {
@@ -22,12 +24,12 @@ export async function getBiddingsWithKeyword(busca) {
     try {
         await page.waitForSelector(
             "body > div > div.site-body > div > div.content > div > div > section > div > section:nth-child(5) > table", {
-            timeout: 5000,
+            timeout: 10000,
             visible: true
         });
     } catch (error) {
         await browser.close();
-        return 'nada encontrado'
+        return []
     }
 
     const response = () => {
@@ -53,10 +55,10 @@ export async function getBiddingsWithKeyword(busca) {
 
     const result = await response();
 
-    fs.writeFile('result.json', JSON.stringify(result, null, 2), err => {
+    /* fs.writeFile('result.json', JSON.stringify(result, null, 2), err => {
         if (err) throw err;
         console.log('File is created successfully.');
-    });
+    }); */
 
 
     try {
@@ -118,10 +120,10 @@ export async function loadBidding(ref) {
 
     const result = await response();
 
-    fs.writeFile('result.html', result, err => {
+    /* fs.writeFile('result.html', result, err => {
         if (err) throw err;
         console.log('File is created successfully.');
-    });
+    }); */
 
     await browser.close();
 

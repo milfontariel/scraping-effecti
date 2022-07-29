@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+td {
+  padding: 8px;
+  line-height: 20px;
+  border-left: 1px solid #f9f9f9;
+}
+
+td:last-child {
+  border-right: 1px solid #f9f9f9;
+}
+
+tbody:last-child {
+  border-bottom: 1px solid #f9f9f9;
+}

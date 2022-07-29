@@ -1,24 +1,14 @@
 import { Bidding } from "@prisma/client";
 import { client } from "../database.js";
 
-export async function createBiddings(data: Bidding[] | Bidding) {
-  if (Array.isArray(data)) {
-    data.map(async (bidding) => {
-      await client.bidding.upsert({
-        create: bidding,
-        update: bidding,
-        where: {
-          ref: bidding.ref,
-        },
-      });
-    });
-  } else {
+export async function createBiddings(data: Bidding[]) {
+  data.map(async (bidding) => {
     await client.bidding.upsert({
+      create: bidding,
+      update: bidding,
       where: {
-        ref: data.ref,
+        ref: bidding.ref,
       },
-      create: data,
-      update: data,
     });
-  }
+  });
 }
