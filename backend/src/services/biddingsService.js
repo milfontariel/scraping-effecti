@@ -1,8 +1,9 @@
 import puppeteer from "puppeteer";
 import fs from 'fs';
+import { createBiddings } from "../repositories/biddingsRepository.ts";
 
 export async function getBiddingsWithKeyword(busca) {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/Licitacoes.php');
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/ConsLicitacoesAndamento.php');
@@ -57,8 +58,15 @@ export async function getBiddingsWithKeyword(busca) {
         console.log('File is created successfully.');
     });
 
-    await browser.close();
-    return result;
+
+    try {
+        await createBiddings(result);
+        await browser.close();
+        return result;
+    } catch (error) {
+        throw { type: "bad_request" };
+    }
+
 };
 
 export async function loadBidding(ref) {
@@ -119,5 +127,3 @@ export async function loadBidding(ref) {
 
     return result;
 }
-
-loadBidding('1-25-2022-1-6')

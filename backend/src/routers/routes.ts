@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authRouter } from "./authRouter.js";
+import { biddingsRouter } from "./biddingsRouter.js";
 
 export const routes = Router();
 
-routes.use(authRouter);
+routes.use(biddingsRouter);
