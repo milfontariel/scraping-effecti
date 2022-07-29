@@ -14,6 +14,10 @@ export function Main() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        const session = localStorage.getItem('biddingsOpen');
+        if (!session) {
+            localStorage.setItem('biddingsOpen', JSON.stringify({}));
+        }
         async function fetchBiddings(search) {
             try {
                 setIsLoading(true);
