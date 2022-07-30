@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import fs from 'fs';
 import { createBiddings } from "../repositories/biddingsRepository.ts";
 
 export async function getBiddingsWithKeyword(search) {
@@ -55,12 +54,6 @@ export async function getBiddingsWithKeyword(search) {
 
     const result = await response();
 
-    /* fs.writeFile('result.json', JSON.stringify(result, null, 2), err => {
-        if (err) throw err;
-        console.log('File is created successfully.');
-    }); */
-
-
     try {
         await createBiddings(result);
         await browser.close();
@@ -72,7 +65,7 @@ export async function getBiddingsWithKeyword(search) {
 };
 
 export async function loadBidding(ref) {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/Licitacoes.php');
     await page.goto('http://www.recife.pe.gov.br/portalcompras/app/ConsLicitacoesAndamento.php');
@@ -112,7 +105,6 @@ export async function loadBidding(ref) {
     const response = () => {
         return page.evaluate(async () => {
             return await new Promise((resolve) => {
-                //const html = document.querySelector("body > div > div.site-body > div > div.content > div > div > section > div > article:nth-child(3) > section:nth-child(2) > table").outerHTML;
                 const html = document.querySelector("*").outerHTML;
                 resolve(html)
             })
@@ -120,11 +112,6 @@ export async function loadBidding(ref) {
     }
 
     const result = await response();
-
-    /* fs.writeFile('result.html', result, err => {
-        if (err) throw err;
-        console.log('File is created successfully.');
-    }); */
 
     await browser.close();
 
